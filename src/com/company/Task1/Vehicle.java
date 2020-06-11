@@ -1,11 +1,16 @@
 package com.company.Task1;
 
+/**
+ * Класс транспортного средства. Задание 1.
+ * Содержит геттеры и сеттеры для ТС, а так же функции для возвращения информации по экземпляру
+ */
 public class Vehicle {
-    private int type;
-    private int number;
-    private int path;
-    private int param;
+    private int type;//тип ТС
+    private int number;//номер авто
+    private int path;//пробег
+    private int param;//параметр
 
+    //Конструктор для ТС
     public Vehicle(int type, int number, int path, int param) {
         this.type = type;
         this.number = number;
@@ -45,6 +50,7 @@ public class Vehicle {
         this.param = param;
     }
 
+    //Получение типа ТС
     public String getVehicleType(){
         switch (this.type) {
             case 100: return "Легковой авто";
@@ -55,6 +61,7 @@ public class Vehicle {
         }
     }
 
+    //Получение потребления топлива ТС
     public double getConsumption(){
         switch (this.type) {
             case 100: return 12.5;
