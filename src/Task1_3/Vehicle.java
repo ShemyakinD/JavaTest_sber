@@ -1,10 +1,10 @@
-package com.company.Task1;
+package Task1_3;
 
 /**
  * Класс транспортного средства. Задание 1.
  * Содержит геттеры и сеттеры для ТС, а так же функции для возвращения информации по экземпляру
  */
-public class Vehicle {
+abstract class Vehicle {
     private int type;//тип ТС
     private int number;//номер авто
     private int path;//пробег
@@ -50,26 +50,27 @@ public class Vehicle {
         this.param = param;
     }
 
-    //Получение типа ТС
-    public String getVehicleType(){
-        switch (this.type) {
-            case 100: return "Легковой авто";
-            case 200: return "Грузовой авто";
-            case 300: return "Пассажирский транспорт";
-            case 400: return "Тяжёлая техника";
-            default: return "Wrong code";
-        }
+    public abstract String getVehicleType();
+
+    public abstract double getConsumption();
+
+    //Парсим пробег ТС из строки
+    public static Integer parseVehiclePath(String car) {
+        return Integer.parseInt(car.split("-")[1]);
     }
 
-    //Получение потребления топлива ТС
-    public double getConsumption(){
-        switch (this.type) {
-            case 100: return 12.5;
-            case 200: return 12.0;
-            case 300: return 11.5;
-            case 400: return 20.0;
-            default: return 0.0;
-        }
+    //Парсим параметр ТС из строки
+    public static int parseVehicleParam(String car) {
+        return (car.split("-").length > 2) ? Integer.parseInt(car.split("-")[2]) : 0;
     }
 
+    //Парсим номер ТС из строки
+    public static int parseVehicleNumber(String car) {
+        return Integer.parseInt(car.substring(car.indexOf("_") + 1, car.indexOf("-")));
+    }
+
+    //Парсим тип ТС из строки
+    public static int parseVehicleCode(String car) {
+        return Integer.parseInt(car.substring(1, car.indexOf("_")));
+    }
 }
