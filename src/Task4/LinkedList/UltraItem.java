@@ -1,9 +1,10 @@
-package Task4;
+package Task4.LinkedList;
 
 public class UltraItem {
-    private UltraItem previousItem;
-    private int value;
-    private UltraItem nextItem;
+    //Элемент списка
+    private UltraItem previousItem;//Ссылка на предыдущий элемент
+    private int value;//значение
+    private UltraItem nextItem;//ссылка на следующий элемент
 
     public UltraItem(UltraItem previousItem, int value, UltraItem nextItem) {
         this.previousItem = previousItem;

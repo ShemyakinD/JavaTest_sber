@@ -1,4 +1,4 @@
-package Task1_3;
+package Task1_3.Vehicle;
 
 import java.util.ArrayList;
 import java.util.List;

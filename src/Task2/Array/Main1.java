@@ -1,4 +1,4 @@
-package Task2;
+package Task2.Array;
 
 public class Main1 {
 

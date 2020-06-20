@@ -1,15 +1,15 @@
-package Task1_3;
+package Task1_3.Vehicle;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CargoVehicle extends Vehicle {
+public class PassengerVehicle extends Vehicle {
 
-    public static double consumption = 12.0;
-    public static String vehicleType = "Грузовой авто";
+    public static double consumption = 11.5;
+    public static String vehicleType = "Пассажирский транспорт";
 
-    public CargoVehicle(int number, int path, int param) {
-        super(200, number, path, param);
+    public PassengerVehicle(int number, int path, int param) {
+        super(300, number, path, param);
     }
 
     public double getConsumption() {
@@ -20,15 +20,15 @@ public class CargoVehicle extends Vehicle {
         return vehicleType;
     }
 
-    public static CargoVehicle[] parse(String[] cars) {
-        List<CargoVehicle> vehicleList = new ArrayList<>(); //Сначала сделаем список под ТС
+    public static PassengerVehicle[] parse(String[] cars) {
+        List<PassengerVehicle> vehicleList = new ArrayList<>(); //Сначала сделаем список под ТС
         for (String car : cars) { //Проходим по всему массиву строк
             int carType = parseVehicleCode(car);//Парсим из строки тип ТС
-            if (carType == 200) {
+            if (carType == 300) {
                 int carNumber = parseVehicleNumber(car);//Парсим из строки номер ТС
                 int carPath = parseVehiclePath(car);//Парсим пробег
                 int carParam = parseVehicleParam(car);//Парсим параметр
-                CargoVehicle newVehicle = new CargoVehicle(carNumber, carPath, carParam);
+                PassengerVehicle newVehicle = new PassengerVehicle(carNumber, carPath, carParam);
                 //Создаём экземпляр ТС и проверяем его наличие в листе
                 int oldVehicleIndex = checkVehicle(newVehicle, vehicleList);
                 if (oldVehicleIndex != -1) {//Если есть такое ТС уже, то по ИД обновляем ему пробег
@@ -41,13 +41,13 @@ public class CargoVehicle extends Vehicle {
             } else continue;
         }
 
-        CargoVehicle[] cargoVehicles = new CargoVehicle[vehicleList.size()]; //обращаем лист в массив и возвращаем его
+        PassengerVehicle[] passengerVehicles = new PassengerVehicle[vehicleList.size()]; //обращаем лист в массив и возвращаем его
 
-        return vehicleList.toArray(cargoVehicles);
+        return vehicleList.toArray(passengerVehicles);
     }
 
-    public static int checkVehicle(CargoVehicle vehicle, List<CargoVehicle> vehicleList) {
-        for (CargoVehicle element : vehicleList) {
+    public static int checkVehicle(PassengerVehicle vehicle, List<PassengerVehicle> vehicleList) {
+        for (PassengerVehicle element : vehicleList) {
             if ((vehicle.getType() == element.getType()) && (vehicle.getNumber() == element.getNumber()))
                 return vehicleList.indexOf(element);
         }

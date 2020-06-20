@@ -1,4 +1,4 @@
-package Task1_3;
+package Task1_3.Vehicle;
 
 /**
  * Класс транспортного средства. Задание 1.
