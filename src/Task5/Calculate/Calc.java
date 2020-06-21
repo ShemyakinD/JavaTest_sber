@@ -88,8 +88,34 @@ public class Calc {
 
     }
 
-    //Какулируем простое выражение без скобок
+    //Р
     public static void calculate(String expression){
+        int braketsCheck = 0;
+        //Валидируем выражение на количество скобок
+        for (int i = 0; i < expression.length(); i++){
+            if (expression.charAt(i) == '('){
+                braketsCheck++;
+            }
+            if (expression.charAt(i) == ')'){
+                braketsCheck--;
+            }
+        }
+        if (braketsCheck != 0){ //Плохо ошибаться с количеством скобок
+            System.out.println("Что-то со скобками беда!");
+            return;
+        }
+        else { //если ты молодец, то начинаем вычислять все скобки начиная изнути выражения
+            while (expression.contains("(") || expression.contains(")")){
+                String nestedExpression = expression.substring(expression.lastIndexOf("(")+1,expression.indexOf(")",expression.lastIndexOf("(")));
+                expression = expression.replace("("+nestedExpression+")", calculateExpression(nestedExpression));
+            }
+            System.out.println(calculateExpression(expression));
+        }
+
+    }
+
+    //Какулируем простое выражение без скобок
+    public static String calculateExpression(String expression){
         expression = expression.replaceAll("\\s","");//для регулярок почистим пробелы
         while (expression.contains("*") || expression.contains("/")){ //сначала обратабываем частные и произведения
             Matcher multOrDiv = Pattern.compile("(\\D?\\d+\\.*\\d*)[\\*/](\\D?\\d+\\.*\\d*)").matcher(expression);
@@ -120,7 +146,8 @@ public class Calc {
             }
         }
         //Выводим число. Если оно положительное - опускаем знак.
-        System.out.println(expression.contains("-") ? expression : expression.replace("+",""));
+//        System.out.println(expression.contains("-") ? expression : expression.replace("+",""));
+        return expression.contains("-") ? expression : expression.replace("+","");
     }
 
     //Вычисление произведения для парсера
@@ -140,40 +167,9 @@ public class Calc {
 
     //Вычисление разности для парсера
     private static String minusStr(double val1, double val2){
-        if (val1 < 0.0 && val2 < 0.0)
+        if (val1 < 0.0 || val2 < 0.0)
             return plusStr(val1,val2);
         return String.valueOf(val1 - val2);
     }
 
-    //(1+5)*3
-  /*  public static void calculate(String expression){
-        double result = 0.0;
-
-//        String[] vars = input.split("^\\((.*?)\\)");
-
-        Matcher expres = Pattern.compile("(\\(.*\\)(\\(.*\\)(\\(.*\\)(\\(.*\\)))))").matcher(expression);
-        expres.find();
-        String exp = expression.substring(expression.indexOf("(")+1,expression.indexOf(")"));
-        Scanner scanner = new Scanner(exp);
-        String input = scanner.next();*/
-//        String[] vars = input.split("(\\d+[\\*/]\\d+)");
-      /*  String[] vars = input.split("[\\+-]");
-        for (String var : vars){
-            Matcher m = Pattern.compile("(\\d\\.*\\d*)\\*(\\d\\.*\\d*)").matcher(var);
-            Matcher d = Pattern.compile("(\\d\\.*\\d*)/(\\d\\.*\\d*)").matcher(var);
-            if (m.find()){
-                System.out.println(m.group(1));
-                System.out.println(m.group(2));
-                String res = multiply(Double.parseDouble(m.group(1)),Double.parseDouble(m.group(2)));
-                exp = exp.replace(var,res);
-            }
-            if (d.find()){
-                System.out.println(d.group(1));
-                System.out.println(d.group(2));
-                String res2 = divide(Double.parseDouble(d.group(1)),Double.parseDouble(d.group(2)));
-                exp = exp.replace(var,res2);
-            }
-        }
-        System.out.println(result);
-    }*/
 }

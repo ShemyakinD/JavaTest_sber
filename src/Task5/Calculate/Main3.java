@@ -4,6 +4,13 @@ public class Main3 {
     public static void main(String[] args) {
 
         System.out.println("Мучение парсера калькулятора:");
+
+        Calc.calculate("((2.5 - 1) / 0.5) + (5 * (4 * (2+3)))");
+        System.out.printf("Посчитала система: %f\n", ((2.5 - 1) / 0.5) + (5 * (4 * (2+3))));
+
+        Calc.calculate("10 * ((1 + 6.9 * (9 + 1))/2.5)");
+        System.out.printf("Посчитала система: %f\n", 10 * ((1 + 6.9 * (9 + 1))/2.5));
+
         Calc.calculate("5.1+6.6/2*3.1-1*0+6*3+4.5/0.5");
         System.out.printf("Посчитала система: %f\n", 5.1+6.6/2*3.1-1*0+6*3+4.5/0.5);
 
