@@ -21,11 +21,12 @@ public class Main3 {
         System.out.printf("Посчитала система: %f\n", -5*3 + 3*-7 + 2.2);
 
         System.out.println("Ручной вызов калькулятора:");
-        System.out.println(Calc.minus(-0.5,0.8));
-        System.out.println(Calc.multiply(0.5,0.8));
-        System.out.println(Calc.divide(0.5,0.8));
-        System.out.println(Calc.divide(5,8));
-        System.out.println(Calc.degree(5.1,0));
-        System.out.println(Calc.sqrt(5.1));
+        Calc calc = new Calc();
+        System.out.println(calc.minus(-0.5,0.8));
+        System.out.println(calc.multiply(0.5,0.8));
+        System.out.println(calc.divide(0.5,0.8));
+        System.out.println(calc.divide(5,8));
+        System.out.println(calc.degree(5.1,0));
+        System.out.println(calc.sqrt(5.1));
     }
 }
