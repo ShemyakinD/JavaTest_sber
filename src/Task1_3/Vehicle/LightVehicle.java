@@ -3,7 +3,7 @@ package Task1_3.Vehicle;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LightVehicle extends Vehicle {
+public class LightVehicle extends Vehicle implements CalculateCost {
 
     public static double consumption = 12.5;
     public static String vehicleType = "Легковой авто";

@@ -73,4 +73,5 @@ abstract class Vehicle {
     public static int parseVehicleCode(String car) {
         return Integer.parseInt(car.substring(1, car.indexOf("_")));
     }
+
 }
