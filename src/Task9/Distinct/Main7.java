@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Main7 {
     public static void main(String[] args) {
-        List<String> list = new LinkedList<>();
+        Collection<String> list = new LinkedList<>();
         list.add("aaaa");
         list.add("bbbb");
         list.add("bbbb");
@@ -12,9 +12,9 @@ public class Main7 {
         list.add("dddd");
         list.add("aaaa");
 
-        List<String> newList = Distinct.removeDuplicates(list);
+        Collection<String> newList = removeDuplicates(list);
 
-        Queue<Integer> queue = new ArrayDeque<>();
+        Collection<Integer> queue = new ArrayDeque<>();
         queue.add(1);
         queue.add(3);
         queue.add(3);
@@ -22,7 +22,7 @@ public class Main7 {
         queue.add(5);
         queue.add(4);
 
-        Queue<Integer> newQueue = Distinct.removeDuplicates(queue);
+        Collection<Integer> newQueue = removeDuplicates(queue);
 
         System.out.println("Первый лист с дублями:");
         for (String element : list){
@@ -42,5 +42,9 @@ public class Main7 {
             System.out.println(element);
         }
 
+    }
+
+    private static <T> Collection<T> removeDuplicates(Collection<T> collection){
+        return new HashSet<>(collection);
     }
 }
