@@ -14,4 +14,12 @@ public interface CalculateCost {
         System.out.printf("\n%s затраты на обслуживание %.2f", vehicle.getVehicleType(), cost);
     }
 
+    static void printVehicleCost(Vehicle vehicle, double cost, String filename){
+        ConsoleInterface.printToFile(filename,String.format("\n%s гос. номер %s затратил на обслуживание %.2f", vehicle.getVehicleType(), vehicle.getNumber(), cost));
+    }
+
+    static void printVehicleGroupCost(Vehicle vehicle, double cost, String filename){
+        ConsoleInterface.printToFile(filename,String.format("\n%s затраты на обслуживание %.2f", vehicle.getVehicleType(), cost));
+    }
+
 }

@@ -11,8 +11,14 @@ import java.util.Map;
  */
 public class CalculationCost {
 
+    public static void getCost(String[] cars, String filename){
+        getAllCost(cars,filename);
+        getMaxCost(cars, filename);
+        getMinCost(cars, filename);
+    }
+
     //Метод для вывода затрат на обслуживание всех автомобилей
-    public static void getAllCost (String[] cars){
+    public static void getAllCost (String[] cars, String filename){
         double resultCost = 0.0;//Переменная для хранения итогового количества затрат на ГСМ
         //Распарсим строковый массив машин в массив объектов транспорт
         CargoVehicle[] cargoVehicles = CargoVehicle.parse(cars);
@@ -20,55 +26,51 @@ public class CalculationCost {
         PassengerVehicle[] passengerVehicles = PassengerVehicle.parse(cars);
         LightVehicle[] lightVehicles = LightVehicle.parse(cars);
 
-        resultCost += calcVehicleGroup(cargoVehicles,true);
-        resultCost += calcVehicleGroup(heavyVehicles,true);
-        resultCost += calcVehicleGroup(passengerVehicles,true);
-        resultCost += calcVehicleGroup(lightVehicles,true);
+        resultCost += calcVehicleGroup(cargoVehicles,true, filename);
+        resultCost += calcVehicleGroup(heavyVehicles,true, filename);
+        resultCost += calcVehicleGroup(passengerVehicles,true, filename);
+        resultCost += calcVehicleGroup(lightVehicles,true, filename);
 
         //Выводим итоговую стоимость ГСМ
-        System.out.printf("\nИтоговая стоимость обслуживания %.2f\n",resultCost);
-
+        ConsoleInterface.printToFile(filename,String.format("\n\nИтоговая стоимость обслуживания %.2f\n",resultCost));
     }
 
-    private static double calcVehicleGroup (Vehicle[] vehicles, boolean print){
+    private static double calcVehicleGroup (Vehicle[] vehicles, boolean print, String filename){
         double resultGroupCost = 0.0;
         for (int i = 0; i < vehicles.length; i++){
             double cost = CalculateCost.getVehicleCostByFuel(vehicles[i],getFuleCost(vehicles[i].getType()));
             resultGroupCost += cost;
-            if (print){
-                CalculateCost.printVehicleCost(vehicles[i],cost);
-                if (i == vehicles.length - 1)
-                    CalculateCost.printVehicleGroupCost(vehicles[i],resultGroupCost);
-            }
+            if (print && i == vehicles.length - 1)
+                    CalculateCost.printVehicleGroupCost(vehicles[i],resultGroupCost, filename);
         }
         return resultGroupCost;
     }
 
     //Метод вывода максимальной стоимости обслуживания по типам ТС
-   public static void getMaxCost(String[] cars){
+   public static void getMaxCost(String[] cars, String filename){
         Double maxCost = -99999990.0;
         double calculatedCost = 0.0;
         int type = 0;
 
-        calculatedCost =  calcVehicleGroup(CargoVehicle.parse(cars),false);
+        calculatedCost =  calcVehicleGroup(CargoVehicle.parse(cars),false, null);
         if (maxCost < calculatedCost){
             maxCost = calculatedCost;
             type = 0;
         }
 
-       calculatedCost =  calcVehicleGroup(HeavyVehicle.parse(cars),false);
+       calculatedCost =  calcVehicleGroup(HeavyVehicle.parse(cars),false, null);
        if (maxCost < calculatedCost){
            maxCost = calculatedCost;
            type = 1;
        }
 
-       calculatedCost =  calcVehicleGroup(PassengerVehicle.parse(cars),false);
+       calculatedCost =  calcVehicleGroup(PassengerVehicle.parse(cars),false, null);
        if (maxCost < calculatedCost){
            maxCost = calculatedCost;
            type = 2;
        }
 
-       calculatedCost =  calcVehicleGroup(LightVehicle.parse(cars),false);
+       calculatedCost =  calcVehicleGroup(LightVehicle.parse(cars),false, null);
        if (maxCost < calculatedCost){
            maxCost = calculatedCost;
            type = 3;
@@ -76,19 +78,19 @@ public class CalculationCost {
 
        switch (type){
            case 0: {
-               System.out.printf("\nАвто с максимальным расходом: %s %.2f",CargoVehicle.vehicleType,maxCost);
+               ConsoleInterface.printToFile(filename,String.format("\n\nАвто с максимальным расходом: %s %.2f",CargoVehicle.vehicleType,maxCost));
                break;
            }
            case 1: {
-               System.out.printf("\nАвто с максимальным расходом: %s %.2f",HeavyVehicle.vehicleType,maxCost);
+               ConsoleInterface.printToFile(filename,String.format("\nАвто с максимальным расходом: %s %.2f",HeavyVehicle.vehicleType,maxCost));
                break;
            }
            case 2: {
-               System.out.printf("\nАвто с максимальным расходом: %s %.2f",PassengerVehicle.vehicleType,maxCost);
+               ConsoleInterface.printToFile(filename,String.format("\nАвто с максимальным расходом: %s %.2f",PassengerVehicle.vehicleType,maxCost));
                break;
            }
            case 3: {
-               System.out.printf("\nАвто с максимальным расходом: %s %.2f",LightVehicle.vehicleType,maxCost);
+               ConsoleInterface.printToFile(filename,String.format("\nАвто с максимальным расходом: %s %.2f",LightVehicle.vehicleType,maxCost));
                break;
            }
        }
@@ -96,31 +98,31 @@ public class CalculationCost {
 
     //Метод вывода минимальной стоимости обслуживания по типам ТС
     //Аналогичен getMaxCost, только ищем минимум по убыванию
-    public static void getMinCost(String[] cars){
+    public static void getMinCost(String[] cars, String filename){
 
         Double minCost = 99999990.0;
         double calculatedCost = 0.0;
         int type = 0;
 
-        calculatedCost =  calcVehicleGroup(CargoVehicle.parse(cars),false);
+        calculatedCost =  calcVehicleGroup(CargoVehicle.parse(cars),false, null);
         if (minCost > calculatedCost){
             minCost = calculatedCost;
             type = 0;
         }
 
-        calculatedCost =  calcVehicleGroup(HeavyVehicle.parse(cars),false);
+        calculatedCost =  calcVehicleGroup(HeavyVehicle.parse(cars),false, null);
         if (minCost > calculatedCost){
             minCost = calculatedCost;
             type = 1;
         }
 
-        calculatedCost =  calcVehicleGroup(PassengerVehicle.parse(cars),false);
+        calculatedCost =  calcVehicleGroup(PassengerVehicle.parse(cars),false, null);
         if (minCost > calculatedCost){
             minCost = calculatedCost;
             type = 2;
         }
 
-        calculatedCost =  calcVehicleGroup(LightVehicle.parse(cars),false);
+        calculatedCost =  calcVehicleGroup(LightVehicle.parse(cars),false, null);
         if (minCost > calculatedCost){
             minCost = calculatedCost;
             type = 3;
@@ -128,19 +130,19 @@ public class CalculationCost {
 
         switch (type){
             case 0: {
-                System.out.printf("\nАвто с минимальным расходом: %s %.2f",CargoVehicle.vehicleType,minCost);
+                ConsoleInterface.printToFile(filename,String.format("\nАвто с минимальным расходом: %s %.2f",CargoVehicle.vehicleType,minCost));
                 break;
             }
             case 1: {
-                System.out.printf("\nАвто с минимальным расходом: %s %.2f",HeavyVehicle.vehicleType,minCost);
+                ConsoleInterface.printToFile(filename,String.format("\nАвто с минимальным расходом: %s %.2f",HeavyVehicle.vehicleType,minCost));
                 break;
             }
             case 2: {
-                System.out.printf("\nАвто с минимальным расходом: %s %.2f",PassengerVehicle.vehicleType,minCost);
+                ConsoleInterface.printToFile(filename,String.format("\nАвто с минимальным расходом: %s %.2f",PassengerVehicle.vehicleType,minCost));
                 break;
             }
             case 3: {
-                System.out.printf("\nАвто с минимальным расходом: %s %.2f",LightVehicle.vehicleType,minCost);
+                ConsoleInterface.printToFile(filename,String.format("\nАвто с минимальным расходом: %s %.2f",LightVehicle.vehicleType,minCost));
                 break;
             }
         }
@@ -171,7 +173,6 @@ public class CalculationCost {
                 System.out.printf("Тип: %s, номер: %s, пробег: %s, параметр: %s\n",vehicle.getVehicleType(),vehicle.getNumber(),vehicle.getPath(),vehicle.getParam());
             }
         }
-
     }
 
     private static Vehicle[] concatVehicleTypes(CargoVehicle[] cargoVehicles, LightVehicle[] lightVehicles, HeavyVehicle[] heavyVehicles, PassengerVehicle[] passengerVehicles){
