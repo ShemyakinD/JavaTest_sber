@@ -33,24 +33,36 @@ public class ConsoleInterface {
             }
             CalculationCost.getCost(vehicles.toArray(new String[0]),getCalculationFile(username));
 
-            System.out.println("Введите параметры сортировки, если необходимо." + "\n" +
-                    "Команда: sort [Тип транспорта] [Тип сортировки]" + "\n\t" +
-                    "Тип транспорта:" + "\n" +
-                    "100- Легковой авто" + "\n" +
-                    "200- Грузовой авто" + "\n" +
-                    "300-Пассажирский транспорт" + "\n" +
-                    "400- Тяжёлая техника" + "\n\t" +
-                    "Тип сортировки:" + "\n" +
-                    "0- сортировка по Пробегу авто" + "\n" +
-                    "1- сортировка по Параметру");
-            String command = scanner.nextLine();
-            if (command.matches("sort \\d+ \\d")){
-                CustomLogger.logFileGSM(String.format("Пользователь %s выполнил сортировку %s", username,command));
-                int vehicleType = Integer.parseInt(command.substring(command.indexOf(" ")+1, command.indexOf(" ")+4));
-                int sortType = Integer.parseInt(command.substring(command.lastIndexOf(" ")+1));
-                CalculationCost.sortVehicles(vehicles.toArray(new String[0]),vehicleType, sortType);
+            try {
+               printSortVehicles(vehicles,username);
+            }
+            catch (GSMException gsme){
+                CustomLogger.logFileGSM(gsme.getMessage());
             }
         }
+    }
+
+    private static void printSortVehicles(List<String> vehicles, String username) throws GSMException{
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Введите параметры сортировки, если необходимо." + "\n" +
+                "Команда: sort [Тип транспорта] [Тип сортировки]" + "\n\t" +
+                "Тип транспорта:" + "\n" +
+                "100- Легковой авто" + "\n" +
+                "200- Грузовой авто" + "\n" +
+                "300-Пассажирский транспорт" + "\n" +
+                "400- Тяжёлая техника" + "\n\t" +
+                "Тип сортировки:" + "\n" +
+                "0- сортировка по Пробегу авто" + "\n" +
+                "1- сортировка по Параметру");
+        String command = scanner.nextLine();
+        if (command.matches("sort \\d+ \\d")){
+            CustomLogger.logFileGSM(String.format("Пользователь %s выполнил сортировку %s", username,command));
+            int vehicleType = Integer.parseInt(command.substring(command.indexOf(" ")+1, command.indexOf(" ")+4));
+            int sortType = Integer.parseInt(command.substring(command.lastIndexOf(" ")+1));
+            CalculationCost.sortVehicles(vehicles.toArray(new String[0]),vehicleType, sortType);
+        }
+        else
+            throw new GSMException("Пользователь ввёл неверную команду сортировки: " + command);
     }
 
     public static void printListFiles(String username){

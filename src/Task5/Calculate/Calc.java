@@ -26,17 +26,22 @@ public class Calc implements IntegerCalculation, LongCalculation, DoubleCalculat
             return;
         }
         else { //если ты молодец, то начинаем вычислять все скобки начиная изнути выражения
-            while (expression.contains("(") || expression.contains(")")){
-                String nestedExpression = expression.substring(expression.lastIndexOf("(")+1,expression.indexOf(")",expression.lastIndexOf("(")));
-                logger.logConsole("Вычисляем значение в скобках: (" + nestedExpression+")");
-                expression = expression.replace("("+nestedExpression+")", calculateExpression(nestedExpression));
+            try {
+                while (expression.contains("(") || expression.contains(")")){
+                    String nestedExpression = expression.substring(expression.lastIndexOf("(")+1,expression.indexOf(")",expression.lastIndexOf("(")));
+                    logger.logConsole("Вычисляем значение в скобках: (" + nestedExpression+")");
+                    expression = expression.replace("("+nestedExpression+")", calculateExpression(nestedExpression));
+                }
+                System.out.println(calculateExpression(expression));
             }
-            System.out.println(calculateExpression(expression));
+            catch (CalcCustomException cce){
+                logger.logConsole(cce.getMessage());
+            }
         }
     }
 
     //Какулируем простое выражение без скобок
-    public static String calculateExpression(String expression){
+    public static String calculateExpression(String expression) throws CalcCustomException{
         expression = expression.replaceAll("\\s","");//для регулярок почистим пробелы
         while (expression.contains("*") || expression.contains("/")){ //сначала обратабываем частные и произведения
             Matcher multOrDiv = Pattern.compile("(\\D?\\d+\\.*\\d*)[\\*/](\\D?\\d+\\.*\\d*)").matcher(expression);
@@ -80,7 +85,9 @@ public class Calc implements IntegerCalculation, LongCalculation, DoubleCalculat
     }
 
     //Вычисление частного для парсера
-    private static String divideStr(double val1, double val2){
+    private static String divideStr(double val1, double val2) throws CalcCustomException{
+        if (val2 == 0.0)
+            throw new CalcCustomException("Делитель = 0. Результат - бесконечность");
         return String.valueOf(val1 / val2);
     }
 

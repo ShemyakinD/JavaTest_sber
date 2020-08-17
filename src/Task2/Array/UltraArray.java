@@ -42,17 +42,21 @@ public class UltraArray {
     }
 
     //Удаление элемента по индексу
-    public void remove(int index){
-        int[] newArray = new int[this.ultraArray.length - 1]; //Делаем уменьшенный массив для текущих данных
-        boolean deleted = false; //флаг удаления элемента
-        for (int i = 0; i < newArray.length; i++){
-            if (i == index || deleted) { //Если пора удалять элемент или уже удалён, то учитываем шаг между элементами массивов
-                deleted = true;
-                newArray[i] = this.ultraArray[i+1];
+    public void remove(int index) throws ArrayCustomException{
+        if (index<0 || index > getSize())
+            throw new ArrayCustomException("Введён некорректный индекс элемента для удаления");
+        else {
+            int[] newArray = new int[this.ultraArray.length - 1]; //Делаем уменьшенный массив для текущих данных
+            boolean deleted = false; //флаг удаления элемента
+            for (int i = 0; i < newArray.length; i++){
+                if (i == index || deleted) { //Если пора удалять элемент или уже удалён, то учитываем шаг между элементами массивов
+                    deleted = true;
+                    newArray[i] = this.ultraArray[i+1];
+                }
+                else newArray[i] = this.ultraArray[i]; //иначе просто переносим массив
             }
-            else newArray[i] = this.ultraArray[i]; //иначе просто переносим массив
+            this.ultraArray = newArray; //обновляем экземпляр
         }
-        this.ultraArray = newArray; //обновляем экземпляр
     }
 
     //Изменение элемента по индексу

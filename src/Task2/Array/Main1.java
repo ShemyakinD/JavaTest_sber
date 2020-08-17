@@ -23,7 +23,13 @@ public class Main1 {
 
         System.out.println("--------------remove");
         //Удаляем добавленую ранее -5 с индексом 2
-        ultraArray.remove(2);
+        try {
+            ultraArray.remove(2);
+        }
+        catch (ArrayCustomException ace){
+            System.out.println(ace.getMessage());
+        }
+
         ultraArray.print();//Проверяем
 
         System.out.println("--------------set");

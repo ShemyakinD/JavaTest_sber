@@ -18,7 +18,9 @@ public interface DoubleCalculation {
         return (val1 / val2);
     }
 
-    default double sqrt(double val1){
+    default double sqrt(double val1) throws CalcCustomException{
+        if (val1 < 0 )
+            throw new CalcCustomException("Нельзя взять корень отрицательного числа " + val1);
         return Math.sqrt(val1);
     }
 

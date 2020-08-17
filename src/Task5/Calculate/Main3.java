@@ -5,8 +5,8 @@ public class Main3 {
 
         System.out.println("Мучение парсера калькулятора:");
 
-        Calc.calculate("((2.5 - 1) / 0.5) + (5 * (4 * (2+3)))");
-        System.out.printf("Посчитала система: %f\n", ((2.5 - 1) / 0.5) + (5 * (4 * (2+3))));
+        Calc.calculate("((2.5 - 1) / 0) + (5 * (4 * (2+3)))");
+        System.out.printf("Посчитала система: %f\n", ((2.5 - 1) / 0) + (5 * (4 * (2+3))));
 
         Calc.calculate("10 * ((1 + 6.9 * (9 + 1))/2.5)");
         System.out.printf("Посчитала система: %f\n", 10 * ((1 + 6.9 * (9 + 1))/2.5));
@@ -27,6 +27,12 @@ public class Main3 {
         System.out.println(calc.divide(0.5,0.8));
         System.out.println(calc.divide(5,8));
         System.out.println(calc.degree(5.1,0));
-        System.out.println(calc.sqrt(5.1));
+        try{
+            System.out.println(calc.sqrt(-5.1));
+        }
+        catch (CalcCustomException cce){
+            System.out.println(cce.getMessage());
+        }
+
     }
 }
